@@ -1,7 +1,14 @@
 // 设计提醒：买卖交易页是交易后台的执行终端，强调买卖切换、风险提示、盘口深度与下单反馈。
 import { useMemo, useState } from 'react'
-import { ArrowDownUp, BadgeDollarSign, CircleDollarSign, Landmark, TrendingDown, TrendingUp } from 'lucide-react'
+import { ArrowDownUp, BadgeDollarSign, CircleDollarSign, Landmark, TrendingUp } from 'lucide-react'
 import DataTable, { type Column } from '@/components/common/DataTable'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { mockTrades, type Trade } from '@/mock/data'
 
 type Side = '买入' | '卖出'
@@ -94,16 +101,30 @@ export default function Exchange() {
             <div className="grid gap-4 md:grid-cols-3">
               <label className="space-y-2 text-sm font-medium text-slate-700">
                 <span>交易对</span>
-                <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-950 outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/10" value={pair} onChange={(e) => changePair(e.target.value as Pair)}>
-                  {Object.keys(pairMeta).map((item) => <option key={item} value={item}>{item}</option>)}
-                </select>
+                <Select value={pair} onValueChange={(v) => changePair(v as Pair)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {(Object.keys(pairMeta) as Pair[]).map((item) => (
+                      <SelectItem key={item} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </label>
               <label className="space-y-2 text-sm font-medium text-slate-700">
                 <span>订单类型</span>
-                <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-950 outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/10" value={orderType} onChange={(e) => setOrderType(e.target.value as OrderType)}>
-                  <option value="限价">限价</option>
-                  <option value="市价">市价</option>
-                </select>
+                <Select value={orderType} onValueChange={(v) => setOrderType(v as OrderType)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="限价">限价</SelectItem>
+                    <SelectItem value="市价">市价</SelectItem>
+                  </SelectContent>
+                </Select>
               </label>
               <div className="space-y-2 text-sm font-medium text-slate-700">
                 <span>方向</span>

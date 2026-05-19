@@ -3,6 +3,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { BellRing, Bookmark, CheckCircle2, Eye, Newspaper, Radio, RefreshCw, Search, SlidersHorizontal, Zap } from 'lucide-react'
 import StatCard from '@/components/common/StatCard'
 import DataTable, { type Column } from '@/components/common/DataTable'
+import {
+  Select as ShadcnSelect,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useAuth } from '@/contexts/AuthContext'
 import {
   bookmarkNews,
@@ -242,9 +249,45 @@ export default function News() {
             <div className="mt-6 space-y-4">
               <label className="block space-y-2 text-sm font-medium text-slate-300"><span>关键词搜索</span><div className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-3 py-3"><Search className="h-4 w-4 text-slate-500" /><input className="w-full bg-transparent text-white outline-none" value={keyword} onChange={(e) => { setPage(1); setKeyword(e.target.value) }} placeholder="搜索标题、摘要或来源" /></div></label>
               <div className="grid gap-3 sm:grid-cols-3">
-                <Select label="分类" value={category} options={categories} onChange={(value) => { setPage(1); setCategory(value as (typeof categories)[number]) }} />
-                <Select label="影响级别" value={impact} options={impacts} onChange={(value) => { setPage(1); setImpact(value as NewsImpact | '全部') }} />
-                <Select label="时间范围" value={timeRange} options={timeRanges} onChange={(value) => { setPage(1); setTimeRange(value as typeof timeRange) }} />
+                <label className="space-y-2 text-sm font-medium text-slate-300">
+                  <span>分类</span>
+                  <ShadcnSelect value={category} onValueChange={(v) => { setPage(1); setCategory(v as (typeof categories)[number]) }}>
+                    <SelectTrigger className="w-full rounded-xl border-slate-700 bg-slate-900 text-white focus:ring-cyan-400/20 [&>svg]:text-slate-400">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((item) => (
+                        <SelectItem key={item} value={item}>{item}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </ShadcnSelect>
+                </label>
+                <label className="space-y-2 text-sm font-medium text-slate-300">
+                  <span>影响级别</span>
+                  <ShadcnSelect value={impact} onValueChange={(v) => { setPage(1); setImpact(v as NewsImpact | '全部') }}>
+                    <SelectTrigger className="w-full rounded-xl border-slate-700 bg-slate-900 text-white focus:ring-cyan-400/20 [&>svg]:text-slate-400">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {impacts.map((item) => (
+                        <SelectItem key={item} value={item}>{item}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </ShadcnSelect>
+                </label>
+                <label className="space-y-2 text-sm font-medium text-slate-300">
+                  <span>时间范围</span>
+                  <ShadcnSelect value={timeRange} onValueChange={(v) => { setPage(1); setTimeRange(v as typeof timeRange) }}>
+                    <SelectTrigger className="w-full rounded-xl border-slate-700 bg-slate-900 text-white focus:ring-cyan-400/20 [&>svg]:text-slate-400">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {timeRanges.map((item) => (
+                        <SelectItem key={item} value={item}>{item}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </ShadcnSelect>
+                </label>
               </div>
               <button className={`flex w-full items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition ${pinImportant ? 'border-rose-400/40 bg-rose-400/10 text-rose-100' : 'border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800'}`} onClick={() => setPinImportant((value) => !value)}>
                 <span className="inline-flex items-center gap-2"><SlidersHorizontal className="h-4 w-4" />按重要级别置顶</span>
@@ -322,10 +365,6 @@ export default function News() {
       </section>
     </div>
   )
-}
-
-function Select({ label, value, options, onChange }: { label: string; value: string; options: readonly string[]; onChange: (value: string) => void }) {
-  return <label className="space-y-2 text-sm font-medium text-slate-300"><span>{label}</span><select className="w-full rounded-xl border border-slate-700 bg-slate-900 px-3 py-3 text-white outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/10" value={value} onChange={(e) => onChange(e.target.value)}>{options.map((item) => <option key={item} value={item}>{item}</option>)}</select></label>
 }
 
 function ImpactBadge({ impact }: { impact: NewsImpact }) {

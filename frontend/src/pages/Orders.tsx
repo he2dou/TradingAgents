@@ -3,6 +3,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { AlertCircle, Filter } from 'lucide-react'
 import DataTable, { type Column } from '@/components/common/DataTable'
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
   getApiErrorMessage,
   listOrders,
   type OrderListItem,
@@ -123,18 +130,36 @@ export default function Orders() {
           <h3 className="text-lg font-semibold">订单筛选</h3>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:max-w-xl">
-          <Select
-            label="状态筛选"
-            value={status}
-            onChange={(value) => setStatus(value as OrderStatus | '全部')}
-            options={statuses}
-          />
-          <Select
-            label="标的筛选"
-            value={symbol}
-            onChange={setSymbol}
-            options={symbols}
-          />
+          <label className="space-y-2 text-sm font-medium text-slate-600">
+            <span>状态筛选</span>
+            <Select value={status} onValueChange={(v) => setStatus(v as OrderStatus | '全部')}>
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {statuses.map((item) => (
+                  <SelectItem key={item} value={item}>
+                    {item}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </label>
+          <label className="space-y-2 text-sm font-medium text-slate-600">
+            <span>标的筛选</span>
+            <Select value={symbol} onValueChange={setSymbol}>
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {symbols.map((item) => (
+                  <SelectItem key={item} value={item}>
+                    {item}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </label>
         </div>
       </div>
 
@@ -153,35 +178,6 @@ export default function Orders() {
         </div>
       )}
     </div>
-  )
-}
-
-function Select({
-  label,
-  value,
-  onChange,
-  options,
-}: {
-  label: string
-  value: string
-  onChange: (value: string) => void
-  options: readonly string[]
-}) {
-  return (
-    <label className="space-y-2 text-sm font-medium text-slate-600">
-      <span>{label}</span>
-      <select
-        className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-slate-900 outline-none transition focus:border-cyan-400 focus:ring-4 focus:ring-cyan-100"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      >
-        {options.map((item) => (
-          <option key={item} value={item}>
-            {item}
-          </option>
-        ))}
-      </select>
-    </label>
   )
 }
 

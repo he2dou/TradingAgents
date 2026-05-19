@@ -2,6 +2,13 @@
 import { useMemo, useState } from 'react'
 import { History } from 'lucide-react'
 import DataTable, { type Column } from '@/components/common/DataTable'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { mockTrades, type Trade } from '@/mock/data'
 
 const pairs = ['全部', 'BTC/USDT', 'ETH/USDT', 'SOL/USDT'] as const
@@ -31,9 +38,18 @@ export default function Trades() {
         </div>
         <label className="space-y-2 text-sm font-medium text-slate-600 md:w-56">
           <span>交易对筛选</span>
-          <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-slate-900 outline-none transition focus:border-cyan-400 focus:ring-4 focus:ring-cyan-100" value={pair} onChange={(e) => setPair(e.target.value as typeof pair)}>
-            {pairs.map((item) => <option key={item} value={item}>{item}</option>)}
-          </select>
+          <Select value={pair} onValueChange={(v) => setPair(v as (typeof pairs)[number])}>
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {pairs.map((item) => (
+                <SelectItem key={item} value={item}>
+                  {item}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </label>
       </div>
       <DataTable columns={columns} data={filtered} pageSize={10} />

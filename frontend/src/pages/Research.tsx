@@ -5,6 +5,13 @@ import { toast } from 'sonner'
 import StatCard from '@/components/common/StatCard'
 import DataTable, { type Column } from '@/components/common/DataTable'
 import { Button } from '@/components/ui/button'
+import {
+  Select as ShadcnSelect,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
@@ -461,7 +468,21 @@ export default function Research() {
                     />
                   </div>
                 </label>
-                <DarkSelect label="观点" value={rating} options={ratings} onChange={(value) => setRating(value as (typeof ratings)[number])} />
+                <label className="space-y-2 text-sm font-medium text-slate-300">
+                  <span>观点</span>
+                  <ShadcnSelect value={rating} onValueChange={(v) => setRating(v as (typeof ratings)[number])}>
+                    <SelectTrigger className="w-full rounded-xl border-slate-700 bg-slate-900 text-white focus:ring-cyan-400/20 [&>svg]:text-slate-400">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ratings.map((item) => (
+                        <SelectItem key={item} value={item}>
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </ShadcnSelect>
+                </label>
               </div>
             </div>
             {message && <div className="mt-5 rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-4 text-sm text-cyan-100">{message}</div>}
@@ -661,10 +682,10 @@ export default function Research() {
             <div className="grid gap-4 sm:grid-cols-2">
               <LightInput label="研报标的" value={generateTicker} onChange={setGenerateTicker} placeholder="如 09988.HK / NVDA / SPY" icon={Search} />
               <LightDateInput label="分析日期" value={generateDate} onChange={setGenerateDate} />
-              <LightSelect label="输出语言" value={outputLanguage} options={outputLanguages} onChange={(value) => setOutputLanguage(value as (typeof outputLanguages)[number])} />
-              <LightSelect label="LLM Provider" value={llmProvider} options={llmProviders} onChange={(value) => setLlmProvider(value as (typeof llmProviders)[number])} />
-              <LightSelect label="Quick Think Model" value={quickModel} options={quickModels} onChange={(value) => setQuickModel(value as (typeof quickModels)[number])} />
-              <LightSelect label="Deep Think Model" value={deepModel} options={deepModels} onChange={(value) => setDeepModel(value as (typeof deepModels)[number])} />
+              <LightSelectWrapper label="输出语言" value={outputLanguage} options={outputLanguages} onChange={(value) => setOutputLanguage(value as (typeof outputLanguages)[number])} />
+              <LightSelectWrapper label="LLM Provider" value={llmProvider} options={llmProviders} onChange={(value) => setLlmProvider(value as (typeof llmProviders)[number])} />
+              <LightSelectWrapper label="Quick Think Model" value={quickModel} options={quickModels} onChange={(value) => setQuickModel(value as (typeof quickModels)[number])} />
+              <LightSelectWrapper label="Deep Think Model" value={deepModel} options={deepModels} onChange={(value) => setDeepModel(value as (typeof deepModels)[number])} />
               <LightInput label="投资辩论轮数" value={maxDebateRounds} onChange={setMaxDebateRounds} placeholder="1" icon={Settings2} />
               <LightInput label="风控讨论轮数" value={maxRiskRounds} onChange={setMaxRiskRounds} placeholder="1" icon={Settings2} />
             </div>
@@ -774,8 +795,24 @@ export default function Research() {
   )
 }
 
-function DarkSelect({ label, value, options, onChange }: { label: string; value: string; options: readonly string[]; onChange: (value: string) => void }) {
-  return <label className="space-y-2 text-sm font-medium text-slate-300"><span>{label}</span><select className="w-full rounded-xl border border-slate-700 bg-slate-900 px-3 py-3 text-white outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/10" value={value} onChange={(e) => onChange(e.target.value)}>{options.map((item) => <option key={item} value={item}>{item}</option>)}</select></label>
+function LightSelectWrapper({ label, value, options, onChange }: { label: string; value: string; options: readonly string[]; onChange: (value: string) => void }) {
+  return (
+    <label className="space-y-2">
+      <span className="text-sm font-medium text-slate-600">{label}</span>
+      <ShadcnSelect value={value} onValueChange={onChange}>
+        <SelectTrigger className="h-[50px] w-full rounded-2xl border-slate-200 bg-slate-50 text-sm focus:ring-slate-300">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((item) => (
+            <SelectItem key={item} value={item}>
+              {item}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </ShadcnSelect>
+    </label>
+  )
 }
 
 function ImpactLikeBadge({ active }: { active: boolean }) {
@@ -790,10 +827,6 @@ function ImpactLikeBadge({ active }: { active: boolean }) {
 
 function InfoCard({ label, value }: { label: string; value: string }) {
   return <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4"><p className="text-xs text-slate-500">{label}</p><p className="mt-1 font-bold text-slate-950">{value}</p></div>
-}
-
-function LightSelect({ label, value, options, onChange }: { label: string; value: string; options: readonly string[]; onChange: (value: string) => void }) {
-  return <label className="space-y-2"><span className="text-sm font-medium text-slate-600">{label}</span><select className="h-[50px] w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-slate-400" value={value} onChange={(e) => onChange(e.target.value)}>{options.map((item) => <option key={item} value={item}>{item}</option>)}</select></label>
 }
 
 function LightInput({
