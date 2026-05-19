@@ -16,6 +16,9 @@ export default defineConfig({
     tailwindcss(),
   ],
   resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+  optimizeDeps: {
+    exclude: ["lucide-react"],
+  },
   base: "./",
   build: { outDir: "dist", emptyOutDir: true },
 });

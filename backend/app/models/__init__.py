@@ -4,6 +4,7 @@ from app.models.auth_token import AuthToken
 from app.models.audit_event import AuditEvent
 from app.models.cash_ledger import CashLedgerEntry
 from app.models.fill import Fill
+from app.models.news import NewsItem, NewsUserState
 from app.models.order import Order
 from app.models.portfolio_snapshot import PortfolioSnapshot
 from app.models.position import Position
@@ -18,6 +19,8 @@ __all__ = [
     "AuditEvent",
     "CashLedgerEntry",
     "Fill",
+    "NewsItem",
+    "NewsUserState",
     "Order",
     "PortfolioSnapshot",
     "Position",

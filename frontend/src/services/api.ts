@@ -235,6 +235,57 @@ export interface ResearchJob {
   finished_at: string | null
 }
 
+export type NewsImpact = '高' | '中' | '低'
+
+export interface NewsListItem {
+  id: string
+  title: string
+  summary: string
+  source: string
+  source_url: string | null
+  category: string
+  impact: NewsImpact
+  symbols: string[]
+  published_at: string
+  is_read: boolean
+  is_bookmarked: boolean
+}
+
+export interface NewsDetail extends NewsListItem {
+  content: string | null
+  sentiment: 'positive' | 'neutral' | 'negative' | null
+  source_score: number | null
+  tags: string[]
+}
+
+export interface ListNewsParams {
+  keyword?: string
+  category?: string
+  impact?: NewsImpact
+  symbol?: string
+  time_range?: string
+  is_bookmarked?: boolean
+  is_read?: boolean
+  page?: number
+  page_size?: number
+  sort_by?: 'published_at' | 'impact'
+  sort_order?: 'asc' | 'desc'
+}
+
+export interface NewsListResponse {
+  items: NewsListItem[]
+  total: number
+  page: number
+  page_size: number
+}
+
+export interface NewsStateResponse {
+  news_id: string
+  is_read: boolean
+  is_bookmarked: boolean
+  read_at: string | null
+}
+
 export interface ApiErrorPayload {
   detail?: string
   error?: {
@@ -435,6 +486,31 @@ export async function cancelResearchJob(jobId: string) {
 
 export async function getResearchReport(reportId: string) {
   const { data } = await apiClient.get<ResearchReportDetail>(`/v1/research/reports/${encodeURIComponent(reportId)}`)
+  return data
+}
+
+export async function listNews(params?: ListNewsParams) {
+  const { data } = await apiClient.get<NewsListResponse>('/v1/news', { params })
+  return data
+}
+
+export async function getNewsDetail(newsId: string) {
+  const { data } = await apiClient.get<NewsDetail>(`/v1/news/${encodeURIComponent(newsId)}`)
+  return data
+}
+
+export async function markNewsRead(newsId: string) {
+  const { data } = await apiClient.post<NewsStateResponse>(`/v1/news/${encodeURIComponent(newsId)}/read`, {})
+  return data
+}
+
+export async function bookmarkNews(newsId: string) {
+  const { data } = await apiClient.post<NewsStateResponse>(`/v1/news/${encodeURIComponent(newsId)}/bookmark`, {})
+  return data
+}
+
+export async function unbookmarkNews(newsId: string) {
+  const { data } = await apiClient.delete<NewsStateResponse>(`/v1/news/${encodeURIComponent(newsId)}/bookmark`)
   return data
 }
 
