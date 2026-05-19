@@ -18,6 +18,7 @@ import Orders from '@/pages/Orders'
 import Assets from '@/pages/Assets'
 import Trades from '@/pages/Trades'
 import Users from '@/pages/Users'
+import SystemSettings from '@/pages/SystemSettings'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import NotFound from '@/pages/NotFound'
@@ -33,6 +34,7 @@ const routePermissions: Record<string, PermissionKey> = {
   '/research': 'menu.research',
   '/news': 'menu.news',
   '/users': 'menu.users',
+  '/settings': 'menu.settings',
 }
 
 const publicRoutes = ['/login', '/register']
@@ -73,6 +75,7 @@ function ProtectedShell() {
         <Route path="/research" component={Research} />
         <Route path="/news" component={News} />
         <Route path="/users" component={Users} />
+        <Route path="/settings" component={SystemSettings} />
         <Route path="/" component={Dashboard} />
         <Route component={NotFound} />
       </Switch>

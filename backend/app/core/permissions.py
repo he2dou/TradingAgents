@@ -9,6 +9,7 @@ ROLE_PERMISSIONS: dict[str, set[str]] = {
         "menu.research",
         "menu.news",
         "menu.users",
+        "menu.settings",
         "exchange.placeOrder",
         "positions.view",
         "positions.create",
@@ -38,6 +39,8 @@ ROLE_PERMISSIONS: dict[str, set[str]] = {
         "users.edit",
         "users.disable",
         "roles.assign",
+        "settings.view",
+        "settings.edit",
     },
     "risk_manager": {
         "menu.dashboard",
@@ -48,6 +51,7 @@ ROLE_PERMISSIONS: dict[str, set[str]] = {
         "menu.research",
         "menu.news",
         "menu.users",
+        "menu.settings",
         "exchange.placeOrder",
         "positions.view",
         "positions.create",
@@ -68,6 +72,7 @@ ROLE_PERMISSIONS: dict[str, set[str]] = {
         "news.bookmark",
         "news.markRead",
         "users.view",
+        "settings.view",
     },
     "finance_operator": {
         "menu.dashboard",

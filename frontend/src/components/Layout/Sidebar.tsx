@@ -1,5 +1,5 @@
 // 设计提醒：侧边栏是深色指挥舱的骨架，菜单按业务域分组，折叠时保留图标导航和权限过滤。
-import { BookOpenText, BriefcaseBusiness, ChevronsLeft, ChevronsRight, History, LayoutDashboard, Newspaper, Repeat2, ShieldCheck, ShoppingCart, Wallet, X } from 'lucide-react'
+import { BookOpenText, BriefcaseBusiness, ChevronsLeft, ChevronsRight, History, LayoutDashboard, Newspaper, Repeat2, Settings, ShieldCheck, ShoppingCart, Wallet, X } from 'lucide-react'
 import { Link, useLocation } from 'wouter'
 import { useAuth } from '@/contexts/AuthContext'
 import type { PermissionKey } from '@/mock/permission'
@@ -32,6 +32,7 @@ const menuGroups: { title: string; items: { path: string; label: string; icon: t
     title: '系统管理',
     items: [
       { path: '/users', label: '用户/权限管理', icon: ShieldCheck, permission: 'menu.users' },
+      { path: '/settings', label: '系统设置', icon: Settings, permission: 'menu.settings' },
     ],
   },
 ]

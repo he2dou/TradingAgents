@@ -554,3 +554,35 @@ export async function getLatestSnapshot() {
   const { data } = await apiClient.get<SnapshotResponse>('/v1/snapshots/latest')
   return data
 }
+
+export interface SettingsCategoryItem {
+  category: string
+  label: string
+  description: string | null
+  updated_at: string
+  updated_by: number | null
+}
+
+export interface SettingsCategoryDetail extends SettingsCategoryItem {
+  config: Record<string, unknown>
+}
+
+export async function listSettings() {
+  const { data } = await apiClient.get<SettingsCategoryItem[]>('/v1/system/settings')
+  return data
+}
+
+export async function getSetting(category: string) {
+  const { data } = await apiClient.get<SettingsCategoryDetail>(`/v1/system/settings/${encodeURIComponent(category)}`)
+  return data
+}
+
+export async function updateSetting(category: string, config: Record<string, unknown>) {
+  const { data } = await apiClient.put<SettingsCategoryDetail>(`/v1/system/settings/${encodeURIComponent(category)}`, { config })
+  return data
+}
+
+export async function resetSetting(category: string) {
+  const { data } = await apiClient.post<SettingsCategoryDetail>(`/v1/system/settings/${encodeURIComponent(category)}/reset`)
+  return data
+}

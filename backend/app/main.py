@@ -17,6 +17,7 @@ from app.api.routes.research import router as research_router
 from app.api.routes.risk import router as risk_router
 from app.api.routes.signals import router as signals_router
 from app.api.routes.snapshots import router as snapshots_router
+from app.api.routes.system_settings import router as system_settings_router
 from app.api.routes.users import router as users_router
 from app.core.config import settings
 
@@ -61,4 +62,5 @@ app.include_router(risk_router)
 app.include_router(orders_router)
 app.include_router(portfolio_router)
 app.include_router(snapshots_router)
+app.include_router(system_settings_router)
 app.include_router(users_router)

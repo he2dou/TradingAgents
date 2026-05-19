@@ -36,14 +36,14 @@ backend/.venv/bin/python -m pip install -e ./backend
 
 ```bash
 cd backend
-python3 -m alembic upgrade head
+python -m alembic upgrade head
 ```
 
 ### 4. 启动服务
 
 ```bash
 cd backend
-python3 -m uvicorn app.main:app --host 127.0.0.1 --port 8010
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8010
 ```
 
 如果前端运行在 `5173`、`3000` 或 `4173` 端口，当前后端默认已经允许这些本地来源跨域访问。

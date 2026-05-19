@@ -10,6 +10,7 @@ from app.models.portfolio_snapshot import PortfolioSnapshot
 from app.models.position import Position
 from app.models.risk_decision import RiskDecision
 from app.models.signal import Signal
+from app.models.system_settings import SystemSettings
 from app.models.user import User
 
 __all__ = [
@@ -26,5 +27,6 @@ __all__ = [
     "Position",
     "RiskDecision",
     "Signal",
+    "SystemSettings",
     "User",
 ]
